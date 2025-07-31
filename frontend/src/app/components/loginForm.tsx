@@ -1,62 +1,54 @@
 "use client";
-import React, { useState } from 'react';
-import { useRouter } from "next/navigation";
 
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, Heart } from 'lucide-react';
 import api from '../lib/api';
 
-const LoginForm: React.FC = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const router = useRouter();
+const LoginForm = () => {
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  //const { login } = useAuth();
+  const router = useRouter();
 
-    const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-        setIsLoading(true);
-        setError('');
+    setIsLoading(true);
+    setError('');
+
     try {
-      const { data } = await api.post("/auth/login", { username, password });
-      localStorage.setItem("token", data.access_token);
-      localStorage.setItem("role", data.role);
-      router.push("/patients");
-        if (!data.access_token) {
-                setError('Invalid username or password');
-              }
-          } catch (err) {
-          setError('An error occurred during login');
-        } finally {
-          setIsLoading(false);
-        }
-//     } catch (err) {
-//       alert("Login failed. Check credentials.");
-//     }
-   };
+      const { data } = await api.post('/auth/login', {
+        username: userName,
+        password,
+      });
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setIsLoading(true);
-  //   setError('');
+      localStorage.setItem('token', data.access_token);
+      localStorage.setItem('user', JSON.stringify(data.user)); // Store user object including role
 
-  //   try {
-  //     const success = await login(email, password);
-  //     if (!success) {
-  //       setError('Invalid username or password');
-  //     }
-  //   } catch (err) {
-  //     setError('An error occurred during login');
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
 
+      // localStorage.setItem('token', data.access_token);
+      // localStorage.setItem('role', data.user.role);
+
+      router.push('/dashboard');
+      console.log("data.user.role", data.user.role)
+    } catch (err) {
+      setError('Invalid username or password');
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-50 p-4">
       <div className="w-full max-w-md space-y-8">
@@ -82,15 +74,15 @@ const LoginForm: React.FC = () => {
               <div className="space-y-2">
                 <Label htmlFor="userName">UserName</Label>
                 <Input
-                  id="userName"
-                  type="name"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Enter your userName"
+                  id="username"
+                  type="username"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  placeholder="Enter your username"
                   required
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <Input
@@ -124,7 +116,7 @@ const LoginForm: React.FC = () => {
             <div className="mt-6 p-4 bg-gray-50 rounded-lg">
               <h4 className="font-medium text-gray-900 mb-2">Demo Credentials:</h4>
               <div className="text-sm text-gray-600 space-y-1">
-                <p><strong>Admin:</strong> admin / admin123</p>
+                <p><strong>Admin:</strong> admin/ admin123</p>
                 <p><strong>User:</strong> user / user123</p>
               </div>
             </div>
@@ -136,6 +128,186 @@ const LoginForm: React.FC = () => {
 };
 
 export default LoginForm;
+
+
+
+
+
+
+// import React, { useState } from 'react';
+// import { useRouter } from "next/navigation";
+
+// import { Button } from '@/components/ui/button';
+// import { Input } from '@/components/ui/input';
+// import { Label } from '@/components/ui/label';
+// import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+// import { Alert, AlertDescription } from '@/components/ui/alert';
+// import { Loader2, Heart } from 'lucide-react';
+// import api from '../lib/api';
+
+// const LoginForm: React.FC = () => {
+//   const [username, setUsername] = useState("");
+//   const [password, setPassword] = useState("");
+//   const router = useRouter();
+//   const [isLoading, setIsLoading] = useState(false);
+//   const [error, setError] = useState('');
+//   //const { login } = useAuth();
+
+//     const handleSubmit = async (e: React.FormEvent) => {
+//     e.preventDefault();
+//         setIsLoading(true);
+//         setError('');
+//     try {
+      
+//       const { data } = await api.post("/auth/login", { username , password });
+//       console.log("dat", data)
+//       localStorage.setItem("token", data.access_token);
+//       localStorage.setItem("role", data.user.role);
+//       router.push("/dashboard");
+//         if (!data.access_token) {
+//                 setError('Invalid username or password');
+//               }
+//           } catch (err) {
+//           setError('An error occurred during login');
+//         } finally {
+//           setIsLoading(false);
+//         }
+// //     } catch (err) {
+// //       alert("Login failed. Check credentials.");
+// //     }
+//    };
+
+//   // const handleSubmit = async (e: React.FormEvent) => {
+//   //   e.preventDefault();
+//   //   setIsLoading(true);
+//   //   setError('');
+
+//   //   try {
+//   //     const success = await login(email, password);
+//   //     if (!success) {
+//   //       setError('Invalid username or password');
+//   //     }
+//   //   } catch (err) {
+//   //     setError('An error occurred during login');
+//   //   } finally {
+//   //     setIsLoading(false);
+//   //   }
+//   // };
+
+//   return (
+//     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-50 p-4">
+//       <div className="w-full max-w-md space-y-8">
+//         <div className="text-center">
+//           <div className="flex justify-center mb-4">
+//             <div className="p-3 bg-blue-600 rounded-full">
+//               <Heart className="w-8 h-8 text-white" />
+//             </div>
+//           </div>
+//           <h1 className="text-3xl font-bold text-gray-900">Aisel Health</h1>
+//           <p className="text-gray-600 mt-2">Patient Management System</p>
+//         </div>
+
+//         <Card>
+//           <CardHeader>
+//             <CardTitle>Sign In</CardTitle>
+//             <CardDescription>
+//               Enter your credentials to access the patient management system
+//             </CardDescription>
+//           </CardHeader>
+//           <CardContent>
+//             <form onSubmit={handleSubmit} className="space-y-4">
+//               <div className="space-y-2">
+//                 <Label htmlFor="userName">UserName</Label>
+//                 <Input
+//                   id="userName"
+//                   type="name"
+//                   value={username}
+//                   onChange={(e) => setUsername(e.target.value)}
+//                   placeholder="Enter your userName"
+//                   required
+//                 />
+//               </div>
+              
+//               <div className="space-y-2">
+//                 <Label htmlFor="password">Password</Label>
+//                 <Input
+//                   id="password"
+//                   type="password"
+//                   value={password}
+//                   onChange={(e) => setPassword(e.target.value)}
+//                   placeholder="Enter your password"
+//                   required
+//                 />
+//               </div>
+
+//               {error && (
+//                 <Alert variant="destructive">
+//                   <AlertDescription>{error}</AlertDescription>
+//                 </Alert>
+//               )}
+
+//               <Button type="submit" className="w-full" disabled={isLoading}>
+//                 {isLoading ? (
+//                   <>
+//                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+//                     Signing in...
+//                   </>
+//                 ) : (
+//                   'Sign In'
+//                 )}
+//               </Button>
+//             </form>
+
+//             <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+//               <h4 className="font-medium text-gray-900 mb-2">Demo Credentials:</h4>
+//               <div className="text-sm text-gray-600 space-y-1">
+//                 <p><strong>Admin:</strong> admin / admin123</p>
+//                 <p><strong>User:</strong> user / user123</p>
+//               </div>
+//             </div>
+//           </CardContent>
+//         </Card>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default LoginForm;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
