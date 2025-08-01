@@ -11,6 +11,6 @@ export class AuthController {
     if (!user) {
       throw new UnauthorizedException();
     }
-    return this.authService.login(user);
+    return this.authService.login(user); // <- this should return access_token AND user
   }
 }

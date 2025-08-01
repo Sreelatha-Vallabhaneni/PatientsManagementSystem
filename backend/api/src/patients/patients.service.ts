@@ -27,6 +27,8 @@ export class PatientsService {
   }
 
   update(id: number, data: UpdatePatientDto) {
+    console.log("¡¡¡¡¡¡¡¡Updating patient ID:", id);
+    console.log("!!!!!!With data:", data);
     return this.prisma.patient.update({ where: { id }, data });
   }
 
