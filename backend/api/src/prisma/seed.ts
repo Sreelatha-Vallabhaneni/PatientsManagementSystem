@@ -26,8 +26,6 @@ async function main() {
       role: 'USER',
     },
   });
-
-  console.log('Seeded admin and user.');
 }
 
 main()

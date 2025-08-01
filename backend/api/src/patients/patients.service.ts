@@ -9,26 +9,20 @@ export class PatientsService {
   constructor(private prisma: PrismaService) {}
 
   create(createPatientDto: CreatePatientDto) {
-  const { dob, ...rest } = createPatientDto;
-  return this.prisma.patient.create({
-    data: {
-      ...rest,
-      dob: new Date(dob), // <-- converts "1992-04-10" to full Date object
-    },
-  });
-}
-
-//   create(data: CreatePatientDto) {
-//     return this.prisma.patient.create({ data });
-//   }
+    const { dob, ...rest } = createPatientDto;
+    return this.prisma.patient.create({
+      data: {
+        ...rest,
+        dob: new Date(dob), // <-- converts "1992-04-10" to full Date object
+      },
+    });
+  }
 
   findAll() {
     return this.prisma.patient.findMany();
   }
 
   update(id: number, data: UpdatePatientDto) {
-    console.log("¡¡¡¡¡¡¡¡Updating patient ID:", id);
-    console.log("!!!!!!With data:", data);
     return this.prisma.patient.update({ where: { id }, data });
   }
 
