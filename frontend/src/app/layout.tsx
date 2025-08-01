@@ -1,14 +1,15 @@
 
 //import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from "sonner";
 import QueryProvider from "./QueryProvider";
 import './globals.css';
-//const queryClient = new QueryClient();
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className="min-h-screen bg-gray-100 text-gray-900">
         <QueryProvider>{children}</QueryProvider>
+        <Toaster />
       </body>
     </html>
   );
