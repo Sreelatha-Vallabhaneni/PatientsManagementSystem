@@ -27,6 +27,7 @@ import { Patient } from "@/types/patient";
 import PatientsTable from "../components/patientsTable";
 import PatientForm from "../components/patientForm";
 import PatientDetail from "../components/patientDetails";
+import useMediaQuery from "../hooks/useMediaQuery";
 
 const fetchPatients = async () => {
   const { data } = await api.get("/patients");
@@ -45,6 +46,7 @@ const Dashboard: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const patientsPerPage = 10;
+  const isMobile = useMediaQuery('(max-width: 430px)')
 
   // Load user from localStorage on mount
   useEffect(() => {
@@ -115,25 +117,25 @@ const Dashboard: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 shadow-sm">
+      <header className={`${isMobile && "py-3" } bg-white border-b border-gray-200 shadow-sm`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center gap-2">
+            <div className={`flex items-center gap-2 ${isMobile ? 'flex-col' : 'flex-row'}`}>
               <div className="p-2 bg-blue-600 rounded-lg">
-                <Heart className="h-5 w-5 text-white" />
+                <Heart className={`${isMobile && "h-3 w-3" } h-5 w-5 text-white`} />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900">
+                <h1 className={`font-bold text-gray-900 ${isMobile ? 'text-base' : 'text-xl'}`}>
                   Aisel Health
                 </h1>
-                <p className="text-xs text-gray-500">Patient Management</p>
+                <p className={` text-xs text-gray-500`}>Patient Management</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className={`flex items-center ${isMobile ? 'gap-2 flex-col-reverse' : 'gap-4'} `}>
               {user && (
                 <>
-                  <Badge variant="outline" className="flex items-center gap-1">
+                  <Badge variant="outline" className={`flex items-center gap-1`}>
                     {user.role.toLowerCase() === "admin" ? (
                       <Shield className="h-3 w-3" />
                     ) : (
@@ -152,7 +154,7 @@ const Dashboard: React.FC = () => {
                 variant="outline"
                 onClick={() => {
                   localStorage.clear();
-                  location.href = "/login";
+                  location.href = "/";
                 }}
                 className="text-sm flex items-center gap-2 font-bold"
               >
@@ -187,7 +189,7 @@ const Dashboard: React.FC = () => {
               <CardTitle className="tracking-wider text-sm font-medium">
                 Your Access as{" "}
                 <strong className="">
-                  <u>ADMIN</u>
+                  <u>{user?.role.toLowerCase() === "admin" ? "Admin" : "User"}</u>
                 </strong>
               </CardTitle>
               {user?.role.toLowerCase() === "admin" ? (

@@ -90,7 +90,7 @@ export default function PatientsTable({
               <TableHead className="text-Royalblue-dark font-semibold">
                 Phone No.
               </TableHead>
-              <TableHead className="text-Royalblue-dark font-semibold">
+              <TableHead className="text-Royalblue-dark font-semibold hidden lg:table-cell">
                 D.O.B
               </TableHead>
               <TableHead className="text-Royalblue-dark font-semibold text-right">
