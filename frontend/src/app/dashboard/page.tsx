@@ -27,6 +27,7 @@ import { Patient } from "@/types/patient";
 import PatientsTable from "../components/patientsTable";
 import PatientForm from "../components/patientForm";
 import PatientDetail from "../components/patientDetails";
+import useMediaQuery from "../hooks/useMediaQuery";
 
 const fetchPatients = async () => {
   const { data } = await api.get("/patients");
@@ -34,31 +35,35 @@ const fetchPatients = async () => {
 };
 
 const Dashboard: React.FC = () => {
-  const [patient, setPatient] = useState<Patient[]>([]);
-  const [user, setUser] = useState<{ firstName: string; lastName: string; role: string } | null>(null);
+  const [user, setUser] = useState<{
+    firstName: string;
+    lastName: string;
+    role: string;
+  } | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [editingPatient, setEditingPatient] = useState<Patient | null>(null);
   const [viewingPatient, setViewingPatient] = useState<Patient | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
-  const [isEditOpen, setIsEditOpen] = useState(false);
-
   const patientsPerPage = 10;
-  //const roleAccess = localStorage.getItem("user?.role")
+  const isMobile = useMediaQuery('(max-width: 430px)')
 
   // Load user from localStorage on mount
-    useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            const parsedUser = JSON.parse(storedUser);
-            setUser(parsedUser);
-        }
-    }, []);
- 
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
+    }
+  }, []);
+
   const roleAccess = user?.role || "user";
 
-  const { data: patients = [], isLoading, isError } = useQuery({
+  const {
+    data: patients = [],
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["patients"],
     queryFn: fetchPatients,
   });
@@ -69,13 +74,13 @@ const Dashboard: React.FC = () => {
       .includes(searchTerm.toLowerCase())
   );
 
-   // Pagination calculations
+  // Pagination calculations
   const totalPatients = filteredPatients.length;
   const totalPages = Math.ceil(totalPatients / patientsPerPage);
   const startIndex = (currentPage - 1) * patientsPerPage;
   const endIndex = startIndex + patientsPerPage;
   const currentPatients = filteredPatients.slice(startIndex, endIndex);
-  
+
   // Reset to first page when search changes
   React.useEffect(() => {
     setCurrentPage(1);
@@ -90,11 +95,6 @@ const Dashboard: React.FC = () => {
     setEditingPatient(patient);
     setShowForm(true);
   };
-
-  const savePatients = (updatedPatients: Patient[]) => {
-    localStorage.setItem("patients", JSON.stringify(updatedPatients));
-    };
-
 
   const handleViewPatient = (patient: Patient) => {
     setViewingPatient(patient);
@@ -113,51 +113,37 @@ const Dashboard: React.FC = () => {
     // PatientForm handles saving; just refresh UI
     setShowForm(false);
   };
-  
-
-//   const handleDeletePatient = (patientId: string, patientName: string) => {
-//     if (window.confirm(`Are you sure you want to delete patient ${patientName}?`)) {
-//       deletePatient(patientId);
-//     }
-//   };
-  
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
-  const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    window.location.reload();
-  };
-
-  console.log("user in dash", user)
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 shadow-sm">
+      <header className={`${isMobile && "py-3" } bg-white border-b border-gray-200 shadow-sm`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center gap-2">
+            <div className={`flex items-center gap-2 ${isMobile ? 'flex-col' : 'flex-row'}`}>
               <div className="p-2 bg-blue-600 rounded-lg">
-                <Heart className="h-5 w-5 text-white" />
+                <Heart className={`${isMobile && "h-3 w-3" } h-5 w-5 text-white`} />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900">Aisel Health</h1>
-                <p className="text-xs text-gray-500">Patient Management</p>
+                <h1 className={`font-bold text-gray-900 ${isMobile ? 'text-base' : 'text-xl'}`}>
+                  Aisel Health
+                </h1>
+                <p className={` text-xs text-gray-500`}>Patient Management</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className={`flex items-center ${isMobile ? 'gap-2 flex-col-reverse' : 'gap-4'} `}>
               {user && (
                 <>
-                  <Badge variant="outline" className="flex items-center gap-1">
+                  <Badge variant="outline" className={`flex items-center gap-1`}>
                     {user.role.toLowerCase() === "admin" ? (
                       <Shield className="h-3 w-3" />
                     ) : (
                       <Eye className="h-3 w-3" />
                     )}
-                    {user.role.toLowerCase() === "admin" ? "Administrator" : "User"}
+                    {user.role.toLowerCase() === "admin"
+                      ? "Administrator"
+                      : "User"}
                   </Badge>
                   <span className="text-sm text-gray-600">
                     {user.firstName} {user.lastName}
@@ -167,18 +153,14 @@ const Dashboard: React.FC = () => {
               <Button
                 variant="outline"
                 onClick={() => {
-                    localStorage.clear();
-                    location.href = "/login";
+                  localStorage.clear();
+                  location.href = "/";
                 }}
                 className="text-sm flex items-center gap-2 font-bold"
-                >
-                    <LogOut className="h-4 w-4" />
-                    Logout
-                </Button>
-              {/* <Button variant="outline" onClick={logout} className="flex items-center gap-2">
+              >
                 <LogOut className="h-4 w-4" />
-                Sign Out
-              </Button> */}
+                Logout
+              </Button>
             </div>
           </div>
         </div>
@@ -187,43 +169,29 @@ const Dashboard: React.FC = () => {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Patients</CardTitle>
+              <CardTitle className="tracking-wider text-sm font-medium">
+                Total Patients
+              </CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{patients.length}</div>
-              <p className="text-xs text-muted-foreground">Registered in the system</p>
+              <p className="tracking-wider text-sm text-muted-foreground">
+                Registered in the system
+              </p>
             </CardContent>
           </Card>
-
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">New This Month</CardTitle>
-              <UserPlus className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                {
-                  patients.filter((p: Patient) => {
-                    const created = new Date(p.createdAt);
-                    const now = new Date();
-                    return (
-                      created.getMonth() === now.getMonth() &&
-                      created.getFullYear() === now.getFullYear()
-                    );
-                  }).length
-                }
-              </div>
-              <p className="text-xs text-muted-foreground">New registrations</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Your Access</CardTitle>
+              <CardTitle className="tracking-wider text-sm font-medium">
+                Your Access as{" "}
+                <strong className="">
+                  <u>{user?.role.toLowerCase() === "admin" ? "Admin" : "User"}</u>
+                </strong>
+              </CardTitle>
               {user?.role.toLowerCase() === "admin" ? (
                 <Shield className="h-4 w-4 text-muted-foreground" />
               ) : (
@@ -231,10 +199,10 @@ const Dashboard: React.FC = () => {
               )}
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">
+              <div className="text-2xl font-bold tracking-wider">
                 {user?.role.toLowerCase() === "admin" ? "Full" : "View Only"}
               </div>
-              <p className="text-xs text-muted-foreground">
+              <p className="tracking-wider text-sm text-muted-foreground">
                 {user?.role.toLowerCase() === "admin"
                   ? "Create, edit, delete patients"
                   : "View patient information"}
@@ -246,10 +214,12 @@ const Dashboard: React.FC = () => {
         {/* Patients Table */}
         <Card>
           <CardHeader>
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div className="flex tracking-wider flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
                 <CardTitle>Patients</CardTitle>
-                <CardDescription>Manage patient records and information</CardDescription>
+                <CardDescription>
+                  Manage patient records and information
+                </CardDescription>
               </div>
               <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                 <div className="relative">
@@ -262,7 +232,10 @@ const Dashboard: React.FC = () => {
                   />
                 </div>
                 {user?.role.toLowerCase() === "admin" && (
-                  <Button onClick={handleAddPatient} className="flex items-center gap-2">
+                  <Button
+                    onClick={handleAddPatient}
+                    className="flex items-center gap-2"
+                  >
                     <UserPlus className="h-4 w-4" />
                     Add Patient
                   </Button>
@@ -281,7 +254,6 @@ const Dashboard: React.FC = () => {
               onViewPatient={handleViewPatient}
               onPageChange={(page) => setCurrentPage(page)}
             />
-
           </CardContent>
         </Card>
       </main>
@@ -290,7 +262,7 @@ const Dashboard: React.FC = () => {
       {showForm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
           <PatientForm
-            //patient={selectedPatient} 
+            //patient={selectedPatient}
             //onSave={fetchPatients}
             patient={editingPatient}
             onClose={handleCloseForm}
