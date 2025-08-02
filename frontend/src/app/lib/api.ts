@@ -4,7 +4,7 @@ import axios from "axios";
 const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
 const api = axios.create({
-  baseURL: "http://localhost:5001",
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL ,
   headers: {
     "Content-Type": "application/json",
       ...(token && { Authorization: `Bearer ${token}` }),
