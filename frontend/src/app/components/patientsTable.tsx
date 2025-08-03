@@ -131,7 +131,7 @@ export default function PatientsTable({
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => handleDelete(p.id)}
+                        onClick={() => handleDelete(p.id.toString())}
                         className="h-8 w-8 p-0 text-destructive hover:text-destructive"
                       >
                         <Trash2 className="h-4 w-4" />

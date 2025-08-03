@@ -57,7 +57,7 @@ const Dashboard: React.FC = () => {
     }
   }, []);
 
-  const roleAccess = user?.role || "user";
+  const roleAccess = user && user?.role || "user";
 
   const {
     data: patients = [],
