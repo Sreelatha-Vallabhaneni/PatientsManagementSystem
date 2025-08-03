@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Patient } from "@/types/patient";
 import { Calendar, Mail, Phone, MapPin, User, Heart, X } from "lucide-react";
-import { useOutsideClick } from "../hooks/useOutsideClick";
+import useOutsideClick from "../hooks/useOutsideClick";
 
 interface PatientDetailProps {
   patient: Patient;
@@ -18,7 +18,6 @@ interface PatientDetailProps {
 }
 
 const PatientDetail: React.FC<PatientDetailProps> = ({ patient, onClose }) => {
-  const modalRef = useRef<HTMLDivElement>(null);
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
@@ -26,6 +25,8 @@ const PatientDetail: React.FC<PatientDetailProps> = ({ patient, onClose }) => {
       day: "numeric",
     });
   };
+
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const calculateAge = (dob: string) => {
     const today = new Date();

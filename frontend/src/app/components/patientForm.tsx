@@ -6,7 +6,7 @@ import { Patient } from "@/types/patient";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { X } from "lucide-react";
-import { useOutsideClick } from "../hooks/useOutsideClick";
+import useOutsideClick from "../hooks/useOutsideClick";
 
 interface PatientFormProps {
   patient?: Patient | null;
@@ -28,6 +28,7 @@ export default function PatientForm({
   });
 
   const modalRef = useRef<HTMLDivElement>(null);
+  
   const queryClient = useQueryClient();
 
   // Close modal on outside click
