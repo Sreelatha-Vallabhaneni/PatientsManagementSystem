@@ -32,6 +32,7 @@ Start both apps in development mode
 
 🖥️ 3. Access the App
 Frontend (Next.js): http://localhost:3000
+Frontend (Deployed on Vercel): https://patientsmanagementsystem.vercel.app
 Backend (NestJS API): http://localhost:5001
 
 
@@ -60,15 +61,21 @@ Uses React Query for fetching data from the backend
 Includes login form, token-based API access, and CRUD UI
 Responsive UI powered by Tailwind + shadcn
 
-☁️ Deployment Recommendations
-Part	Recommended Platform	Reason
-Frontend	Vercel	Fast, free, optimized for Next.js
-Backend	Render or Fly.io	Easy Docker support
-Database	Supabase (PostgreSQL)	Free tier, hosted DB
-we can also use AWS Amplify or S3 for the frontend, and AWS ECS/EC2 for backend if preferred.
+| Part         | Platform                                              | Notes                                                                                                       |
+| ------------ | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| **Frontend** | [Vercel](https://patientsmanagementsystem.vercel.app) | Deployed here. Chosen for its seamless integration with Next.js, automatic CI/CD, and fast global delivery. |
+| **Backend**  | Render or Fly.io *(Recommended)*                      | Not deployed yet. These platforms are suitable for Docker-based NestJS apps with simple CI pipelines.       |
+| **Database** | Supabase *(Recommended)*                              | Recommended for hosted PostgreSQL with a generous free tier. Currently running locally via Docker.          |
+
 
 📌 Notes & Design Priorities
-Focus: Emphasis on backend structure, role-based access control, and responsive UI/UX
-Scalability: Backend follows modular NestJS architecture
-Security: JWT token auth, env-based secrets, DB access control
-Dev Experience: Dockerized setup, Prisma Studio for DB UI
+🎯 Focus Areas
+While building this solution, I deliberately focused on the following aspects:
+
+Backend Structure & Scalability: Designed the NestJS backend with a modular architecture to ensure the codebase remains scalable and maintainable as features grow.
+Role-Based Access Control (RBAC): Implemented secure role-based permissions (Admin/User) using JWT to demonstrate backend authorization and control mechanisms.
+Developer Experience: Set up a Dockerized environment with automated Prisma migrations and seeding for easy onboarding and reproducibility.
+Responsive UI/UX: Built the frontend using TailwindCSS and shadcn/ui to provide a modern, accessible, and responsive user interface across devices.
+API Security: Focused on protecting routes with JWT auth and validating requests thoroughly at both backend and frontend layers.
+These choices reflect a balanced approach aimed at delivering a solution that is cleanly architected, secure, and user-friendly while being ready to scale.
+
