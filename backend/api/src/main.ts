@@ -6,9 +6,12 @@ async function bootstrap() {
 
   // ✅ Enable CORS to allow requests from frontend
   app.enableCors({
-    origin: 'http://localhost:3000', // adjust this if frontend is hosted elsewhere
-    credentials: true,
-  });
+  origin: [
+    'http://localhost:3000',
+    'https://patients-management-system-x892.vercel.app',
+  ],
+  credentials: true,
+});
 
   await app.listen(5001);
 }
