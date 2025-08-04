@@ -35,7 +35,7 @@ Frontend (Next.js): http://localhost:3000
 Backend (NestJS API): http://localhost:5001
 
 
-⚙️ - **Backend:** Overview
+⚙️ Backend Overview
 Located in ./backend/api
 📁 Key Scripts
 Command	Description:
@@ -66,6 +66,7 @@ Frontend	Vercel	Fast, free, optimized for Next.js
 Backend	Render or Fly.io	Easy Docker support
 Database	Supabase (PostgreSQL)	Free tier, hosted DB
 we can also use AWS Amplify or S3 for the frontend, and AWS ECS/EC2 for backend if preferred.
+
 📌 Notes & Design Priorities
 Focus: Emphasis on backend structure, role-based access control, and responsive UI/UX
 Scalability: Backend follows modular NestJS architecture
