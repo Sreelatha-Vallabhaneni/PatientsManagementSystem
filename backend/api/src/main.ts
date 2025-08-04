@@ -1,7 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import * as dotenv from 'dotenv';
+
 
 async function bootstrap() {
+  dotenv.config();
   const app = await NestFactory.create(AppModule);
 
   // ✅ Enable CORS to allow requests from frontend
@@ -10,7 +13,7 @@ async function bootstrap() {
     'http://localhost:3000',
     'https://patientsmanagementsystem.vercel.app',
     'https://patients-management-system-x892.vercel.app',
-    'https://ebbec5f2507b.ngrok-free.app',
+    // 'https://ebbec5f2507b.ngrok-free.app',
   ],
   credentials: true,
 });
