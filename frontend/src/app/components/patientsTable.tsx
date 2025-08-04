@@ -27,14 +27,31 @@ import { useState, useEffect } from "react";
 interface PatientsTableProps {
   patients: Patient[];
   role: "admin" | "user";
-  status?: "active" | "inactive" | string;
-  onEditPatient?: (patient: Patient) => void;
-  onViewPatient?: (patient: Patient) => void;
-  onDeletePatient: (id: string, name: string) => void;
   currentPage: number;
   totalPages: number;
+  //status?: "active" | "inactive" | string;
+  onEditPatient?: (patient: Patient) => void;
+  onViewPatient?: (patient: Patient) => void;
+  onDeletePatient: (patientId: number) => void;
   onPageChange: (page: number) => void;
+  //onDeletePatient: (id: string, name: string) => void;
 }
+
+
+
+// interface PatientsTableProps {
+//   patients: Patient[];
+//   role: "user" | "admin";
+//   currentPage: number;
+//   totalPages: number;
+//   onEditPatient: (patient: Patient) => void;
+//   onViewPatient: (patient: Patient) => void;
+//   onPageChange: (page: number) => void;
+//   onDeletePatient: (patientId: number) => void; // <-- add this
+// }
+
+
+
 
 export default function PatientsTable({
   patients,
