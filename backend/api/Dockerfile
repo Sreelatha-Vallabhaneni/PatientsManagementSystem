@@ -5,6 +5,9 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
+# ✅ Generate Prisma client
+RUN npx prisma generate
+
 COPY . .
 
 # Optional: install Nest CLI
