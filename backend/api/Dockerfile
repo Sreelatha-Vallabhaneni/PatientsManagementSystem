@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
-COPY prisma .backend/api/src/prisma
+COPY backend/api/src/prisma .backend/api/src/prisma
 # ✅ Generate Prisma client
 RUN npx prisma generate
 
