@@ -8,6 +8,7 @@ async function bootstrap() {
   app.enableCors({
   origin: [
     'http://localhost:3000',
+    'https://patientsmanagementsystem.vercel.app',
     'https://patients-management-system-x892.vercel.app',
   ],
   credentials: true,
