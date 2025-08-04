@@ -62,16 +62,19 @@ Uses React Query for fetching data from the backend
 Includes login form, token-based API access, and CRUD UI
 Responsive UI powered by Tailwind + shadcn
 
-| Part     | Platform                                              | Notes                                                                  |
-| -------- | ----------------------------------------------------- | ------------------------------------------------------------------     |
-| Frontend | [Vercel](https://patientsmanagementsystem.vercel.app) | Deployed here. Chosen for its seamless integration with Next.js, 
-                                                                     automatic CI/CD, and fast global delivery.                             |
+| Part     | Platform                                              | Notes                                       |
+| -------- | ----------------------------------------------------- | ----------------------------------------    |
+| Frontend | [Vercel](https://patientsmanagementsystem.vercel.app) | Deployed here. Chosen for its seamless
+                                                                     integration with Next.js, automatic CI/CD,
+                                                                     and fast global delivery.                   |
                                                                          
-| Backend  | Render or Fly.io *(Recommended)*                      | Not deployed yet. These platforms are suitable for 
-                                                                     Docker-based NestJS apps with simple CI pipelines.                     |
+| Backend  | Render or Fly.io *(Recommended)*                      | Not deployed yet. These platforms
+                                                                     are suitable for Docker-based NestJS apps
+                                                                     with simple CI pipelines.                   |
                                                                          
-| Database | Supabase *(Recommended)*                              | Recommended for hosted PostgreSQL with a generous free tier. 
-                                                                     Currently running locally via Docker.                                  |
+| Database | Supabase *(Recommended)*                              | Recommended for hosted PostgreSQL
+                                                                     with a generous free tier. 
+                                                                     Currently running locally via Docker.       |
 
 
 📌 Notes & Design Priorities
