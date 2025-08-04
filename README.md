@@ -61,11 +61,12 @@ Uses React Query for fetching data from the backend
 Includes login form, token-based API access, and CRUD UI
 Responsive UI powered by Tailwind + shadcn
 
-| Part         | Platform                                              | Notes                                                                                                       |
-| ------------ | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| **Frontend** | [Vercel](https://patientsmanagementsystem.vercel.app) | Deployed here. Chosen for its seamless integration with Next.js, automatic CI/CD, and fast global delivery. |
-| **Backend**  | Render or Fly.io *(Recommended)*                      | Not deployed yet. These platforms are suitable for Docker-based NestJS apps with simple CI pipelines.       |
-| **Database** | Supabase *(Recommended)*                              | Recommended for hosted PostgreSQL with a generous free tier. Currently running locally via Docker.          |
+☁️ Deployment Details & Recommendations
+Part	Platform	Notes
+Frontend	Vercel	Deployed here. Chosen for its seamless integration with Next.js, automatic CI/CD, and fast global delivery.
+Backend	Render or Fly.io (Recommended)	Not deployed yet. These platforms are suitable for Docker-based NestJS apps with simple CI pipelines.
+Database	Supabase (Recommended)	Recommended for hosted PostgreSQL with a generous free tier. Currently running locally via Docker.
+Alternative platforms such as AWS Amplify/S3 (frontend) and AWS ECS/EC2 (backend) can also be used depending on the scale and enterprise preferences.
 
 
 📌 Notes & Design Priorities
