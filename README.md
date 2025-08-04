@@ -78,10 +78,17 @@ Responsive UI powered by Tailwind + shadcn
 🎯 Focus Areas
 While building this solution, I deliberately focused on the following aspects:
 
-Backend Structure & Scalability: Designed the NestJS backend with a modular architecture to ensure the codebase remains scalable and maintainable as features grow.
-Role-Based Access Control (RBAC): Implemented secure role-based permissions (Admin/User) using JWT to demonstrate backend authorization and control mechanisms.
-Developer Experience: Set up a Dockerized environment with automated Prisma migrations and seeding for easy onboarding and reproducibility.
-Responsive UI/UX: Built the frontend using TailwindCSS and shadcn/ui to provide a modern, accessible, and responsive user interface across devices.
-API Security: Focused on protecting routes with JWT auth and validating requests thoroughly at both backend and frontend layers.
-These choices reflect a balanced approach aimed at delivering a solution that is cleanly architected, secure, and user-friendly while being ready to scale.
+# Backend Structure & Scalability: Designed the NestJS backend with a modular
+  architecture to ensure the codebase remains scalable and maintainable as features grow.
+# Role-Based Access Control (RBAC): Implemented secure role-based permissions
+  (Admin/User) using JWT to demonstrate backend authorization and control mechanisms.
+# Developer Experience: Set up a Dockerized environment with automated Prisma migrations
+  and seeding for easy onboarding and reproducibility.
+# Responsive UI/UX: Built the frontend using TailwindCSS and shadcn/ui
+  to provide a modern, accessible, and responsive user interface across devices.
+# API Security: Focused on protecting routes with JWT auth and validating
+  requests thoroughly at both backend and frontend layers.
+
+These choices reflect a balanced approach aimed at delivering a solution
+that is cleanly architected, secure, and user-friendly while being ready to scale.
 
