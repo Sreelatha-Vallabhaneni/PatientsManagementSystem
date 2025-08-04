@@ -1,18 +1,21 @@
+# base image
 FROM node:20
 
+# set working directory
 WORKDIR /app
 
+# copy package files and install
 COPY package*.json ./
 RUN npm install
 
-COPY src/prisma ./src/prisma
+# copy source code, including prisma
+COPY ./src ./src
 
-RUN npm install
+# run prisma generate
+RUN npx prisma generate --schema=src/prisma/schema.prisma
 
-COPY . .
-
-RUN npm run build
-
+# expose port
 EXPOSE 5001
 
+# start app
 CMD ["npm", "run", "start:prod"]
