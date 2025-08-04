@@ -6,14 +6,13 @@ COPY package*.json ./
 RUN npm install
 
 COPY src/prisma ./src/prisma
-# ✅ Generate Prisma client
-RUN npx prisma generate
+
+RUN npm install
 
 COPY . .
 
-# Optional: install Nest CLI
-RUN npm install -g @nestjs/cli
+RUN npm run build
 
 EXPOSE 5001
 
-CMD ["npm", "run", "start:dev"]
+CMD ["npm", "run", "start:prod"]
