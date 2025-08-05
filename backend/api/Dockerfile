@@ -7,7 +7,7 @@ RUN npm install
 
 COPY . .
 
-RUN npm install -g @nestjs/cli
+#RUN npm install -g @nestjs/cli
 
 EXPOSE 5001
 
