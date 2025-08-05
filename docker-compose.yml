@@ -1,18 +1,27 @@
-
-
 services:
   backend:
     build:
       context: ./backend/api
+      dockerfile: Dockerfile
     ports:
       - '5001:5001'
     volumes:
       - ./backend/api:/app
       - /app/node_modules
     environment:
-      - NODE_ENV=development
+      DATABASE_URL: "postgresql://postgres:postgres@db:5432/aisel"
+      #command: sh -c "npx prisma db push --accept-data-loss && npm run start:dev"
+      # - NODE_ENV=development
+    # command: >
+    #   sh -c "
+    #     npx prisma generate --schema=src/prisma/schema.prisma &&
+    #     npx prisma migrate deploy --schema=src/prisma/schema.prisma &&
+    #     npx ts-node src/prisma/seed.ts &&
+    #     npm run start:dev
+    #   "
+    command: sh -c "npx prisma generate --schema=src/prisma/schema.prisma && npx prisma migrate dev --name init --schema=src/prisma/schema.prisma && npx ts-node src/prisma/seed.ts && npm run start:dev"
+    command: npm run start:dev
     command: sh -c "npx prisma generate && npm run start:dev"
-    #command: npm run start:dev
     depends_on:
       - db
 
@@ -25,7 +34,8 @@ services:
       - ./frontend:/app
       - /app/node_modules
     environment:
-      - NODE_ENV=development
+      # DATABASE_URL: "postgresql://postgres:postgres@db:5432/aisel"
+      NODE_ENV: development
     command: npm run dev
     depends_on:
       - backend
@@ -40,7 +50,8 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: patients
+      POSTGRES_DB: aisel
+      #POSTGRES_DB: patients
 
 volumes:
   postgres-data:

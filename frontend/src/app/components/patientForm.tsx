@@ -20,6 +20,7 @@ export default function PatientForm({
   onSave,
 }: PatientFormProps) {
   const [form, setForm] = useState({
+    //id: patient?.id || "",
     firstName: "",
     lastName: "",
     email: "",
@@ -38,6 +39,7 @@ export default function PatientForm({
   useEffect(() => {
     if (patient) {
       setForm({
+        //id: patient.id || "",
         firstName: patient.firstName || "",
         lastName: patient.lastName || "",
         email: patient.email || "",
@@ -52,7 +54,7 @@ export default function PatientForm({
     try {
       const payload = {
         ...form,
-        dob: new Date(form.dob).toISOString(),
+        //dob: new Date(form.dob).toISOString(),
       };
       if (patient) {
         // Update logic
@@ -62,6 +64,7 @@ export default function PatientForm({
         // Create logic
         await api.post("/patients", payload);
         toast.success("Patient added successfully");
+        console.log("Creating patient with payload:", payload);
       }
 
       await queryClient.invalidateQueries({ queryKey: ["patients"] });
@@ -71,6 +74,7 @@ export default function PatientForm({
       toast.error("Something went wrong. Please try again.");
     }
   };
+
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">

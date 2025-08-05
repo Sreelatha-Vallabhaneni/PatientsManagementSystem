@@ -1,5 +1,10 @@
-// patients.service.ts
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+
+
+
+
+
+
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreatePatientDto } from './dto/create-patient.dto';
 import { UpdatePatientDto } from './dto/update-patient.dto';
@@ -9,11 +14,15 @@ export class PatientsService {
   constructor(private prisma: PrismaService) {}
 
   create(createPatientDto: CreatePatientDto) {
-    const { dob, ...rest } = createPatientDto;
+    const { dob, firstName, lastName, email, phoneNumber } = createPatientDto;
+
     return this.prisma.patient.create({
       data: {
-        ...rest,
-        dob: new Date(dob), // <-- converts "1992-04-10" to full Date object
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        dob: new Date(dob),
       },
     });
   }
@@ -22,11 +31,16 @@ export class PatientsService {
     return this.prisma.patient.findMany();
   }
 
-  update(id: number, data: UpdatePatientDto) {
-    return this.prisma.patient.update({ where: { id }, data });
+  update(id: string, data: UpdatePatientDto) {
+    return this.prisma.patient.update({
+      where: { id },
+      data,
+    });
   }
 
-  remove(id: number) {
-    return this.prisma.patient.delete({ where: { id } });
+  remove(id) {
+    return this.prisma.patient.delete({
+      where: { id },
+    });
   }
 }

@@ -37,7 +37,7 @@ export class PatientsController {
 
   @Put(':id')
   @Roles('ADMIN')
-  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdatePatientDto) {
+  update(@Param('id', ParseIntPipe) id, @Body() dto: UpdatePatientDto) {
     return this.service.update(id, dto);
   }
 
