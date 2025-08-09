@@ -7,7 +7,9 @@ RUN npm install
 
 COPY . .
 
-RUN apt-get update && apt-get install -y wait-for-it
+# Build the NestJS app
+RUN npm run build
+#RUN apt-get update && apt-get install -y wait-for-it
 
 #RUN npm install -g @nestjs/cli
 
