@@ -31,14 +31,28 @@ export class PatientsService {
     return this.prisma.patient.findMany();
   }
 
-  update(id: string, data: UpdatePatientDto) {
-    return this.prisma.patient.update({
-      where: { id },
-      data,
-    });
-  }
 
-  remove(id) {
+  update(id: string, data: UpdatePatientDto) {
+  const { dob, ...rest } = data;
+
+  return this.prisma.patient.update({
+    where: { id }, // Make sure this matches your Prisma schema type (string vs number)
+    data: {
+      ...rest,
+      ...(dob && { dob: new Date(dob) }), // only convert if dob is provided
+    },
+  });
+}
+
+
+  // update(id: string, data: UpdatePatientDto) {
+  //   return this.prisma.patient.update({
+  //     where: { id },
+  //     data,
+  //   });
+  // }
+
+  remove(id: string) {
     return this.prisma.patient.delete({
       where: { id },
     });

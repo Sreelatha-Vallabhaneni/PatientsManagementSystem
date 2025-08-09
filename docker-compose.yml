@@ -1,3 +1,4 @@
+
 services:
   backend:
     build:
@@ -9,20 +10,18 @@ services:
       - ./backend/api:/app
       - /app/node_modules
     environment:
-      DATABASE_URL: "postgresql://postgres:postgres@db:5432/aisel"
-      command: sh -c "npx prisma db push --accept-data-loss && npm run start:dev"
-      # - NODE_ENV=development
-    # command: >
-    #   sh -c "
-    #     npx prisma generate --schema=src/prisma/schema.prisma &&
-    #     npx prisma migrate deploy --schema=src/prisma/schema.prisma &&
-    #     npx ts-node src/prisma/seed.ts &&
-    #     npm run start:dev
-    #   "
-    #command: sh -c "npx prisma generate --schema=src/prisma/schema.prisma && npx prisma migrate dev --name init --schema=src/prisma/schema.prisma && npx ts-node src/prisma/seed.ts && npm run start:dev"
-    #command: sh -c "npx prisma generate && npm run start:dev"
+      DATABASE_URL: "postgresql://postgres:postgres@db:5432/aisel?schema=public"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    command: >
+      sh -c "
+        sleep 10 &&
+        npx prisma generate --schema=prisma/schema.prisma &&
+        npx prisma db push --accept-data-loss --schema=prisma/schema.prisma &&
+        npx ts-node src/prisma/seed.ts &&
+        npm run start:dev
+      "
 
   frontend:
     build:
@@ -33,7 +32,6 @@ services:
       - ./frontend:/app
       - /app/node_modules
     environment:
-      # DATABASE_URL: "postgresql://postgres:postgres@db:5432/aisel"
       NODE_ENV: development
     command: npm run dev
     depends_on:
@@ -50,7 +48,11 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: aisel
-      #POSTGRES_DB: patients
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
 
 volumes:
   postgres-data:

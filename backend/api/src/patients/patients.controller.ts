@@ -37,13 +37,13 @@ export class PatientsController {
 
   @Put(':id')
   @Roles('ADMIN')
-  update(@Param('id', ParseIntPipe) id, @Body() dto: UpdatePatientDto) {
+  update(@Param('id') id: string, @Body() dto: UpdatePatientDto) {
     return this.service.update(id, dto);
   }
 
   @Delete(':id')
   @Roles('ADMIN')
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id') id: string) {
     return this.service.remove(id);
   }
 }
