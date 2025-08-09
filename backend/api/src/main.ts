@@ -7,25 +7,29 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
 
+  interface CorsOptions {
+    origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => void;
+    credentials?: boolean;
+  }
 
-  app.enableCors({
-  origin: (origin, callback) => {
-    const allowedOrigins = [
-      'http://localhost:3000',
-      'https://patientsmanagementsystem.vercel.app',
-      'https://patients-management-system-x892.vercel.app',
-    ];
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  //credentials: true,
-  // methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  // allowedHeaders: ['Content-Type', 'Authorization'], // ✅ ADD THIS
-});
+  const allowedOrigins: string[] = [
+    'http://localhost:3000',
+    'https://patientsmanagementsystem.vercel.app',
+    'https://patients-management-system-x892.vercel.app',
+  ];
 
+  const corsOptions: CorsOptions = {
+    origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void): void => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+  };
+
+  app.enableCors(corsOptions);
+   await app.listen(process.env.PORT ||  5001);
 }
 bootstrap();
 

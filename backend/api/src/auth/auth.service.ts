@@ -9,6 +9,18 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
   ) {}
+  
+
+//   async validateUser(username: string, pass: string): Promise<any> {
+//   const user = await this.usersService.findByUsername(username);
+//   console.log('User found:', user);
+//   if (user && (await bcrypt.compare(pass, user.password))) {
+//     const { password, ...result } = user;
+//     return result;
+//   }
+//   return null;
+// }
+
 
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findByUsername(username);

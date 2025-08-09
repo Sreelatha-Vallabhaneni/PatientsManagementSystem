@@ -64,7 +64,6 @@ export default function PatientForm({
         // Create logic
         await api.post("/patients", payload);
         toast.success("Patient added successfully");
-        console.log("Creating patient with payload:", payload);
       }
 
       await queryClient.invalidateQueries({ queryKey: ["patients"] });
