@@ -7,6 +7,9 @@ RUN npm install
 
 COPY . .
 
+# Generate Prisma client
+RUN npx prisma generate
+
 # Build the NestJS app
 RUN npm run build
 #RUN apt-get update && apt-get install -y wait-for-it
