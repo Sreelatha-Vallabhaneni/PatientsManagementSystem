@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y wait-for-it
 
 EXPOSE 5001
 
-CMD ["npm", "run", "start:dev"]
+CMD ["npm", "run", "start:prod"]
 
 
 
