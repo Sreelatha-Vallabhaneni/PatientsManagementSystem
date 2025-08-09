@@ -10,10 +10,12 @@ services:
       - ./backend/api:/app
       - /app/node_modules
     environment:
-      DATABASE_URL: "postgresql://postgres:postgres@db:5432/aisel?schema=public"
-    depends_on:
-      db:
-        condition: service_healthy
+      DATABASE_URL: ${DATABASE_URL}
+    # environment:
+    #   DATABASE_URL: "postgresql://postgres:postgres@db:5432/aisel?schema=public"
+    # depends_on:
+    #   db:
+    #     condition: service_healthy
     command: >
       sh -c "
         sleep 10 &&
@@ -32,7 +34,7 @@ services:
       - ./frontend:/app
       - /app/node_modules
     environment:
-      NODE_ENV: development
+      NODE_ENV: production
     command: npm run dev
     depends_on:
       - backend
